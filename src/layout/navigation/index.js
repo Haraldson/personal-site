@@ -1,0 +1,8 @@
+import { View } from 'backbone.marionette'
+import template from './template.hbs'
+
+export default View.extend({
+    tagName: 'nav',
+    className: 'row shrink',
+    template
+})

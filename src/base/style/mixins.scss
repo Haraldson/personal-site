@@ -1,0 +1,113 @@
+@mixin clearfix {
+    zoom: 1;
+
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after { clear: both; }
+}
+
+@mixin optimize-font-rendering {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin hide-text {
+    text-indent: 200%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@mixin button {
+    padding: 0;
+    border: none;
+    cursor: pointer;
+}
+
+@mixin performance {
+    // http://davidwalsh.name/translate3d
+    -webkit-transform: translate3d(0, 0, 0);
+
+    // http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker
+    // -webkit-perspective: 1000;
+    // -webkit-backface-visibility: hidden;
+}
+
+@mixin transition($properties: all, $duration: .3s, $easing: ease-out, $delay: 0s, $performance: 'true') {
+    @if length($properties) > 1 {
+        transition-property: $properties;
+        transition-duration: $duration;
+        transition-timing-function: $easing;
+        transition-delay: $delay;
+    } @else {
+        transition: $properties $duration $easing $delay;
+    }
+
+    @if $performance == 'true' { @include performance; }
+}
+
+@mixin animation($name, $duration: 1s, $easing: linear, $iterations: infinite, $fill: forwards, $delay: 0s, $performance: 'false') {
+    animation-name: $name;
+    animation-duration: $duration;
+    animation-timing-function: $easing;
+    animation-iteration-count: $iterations;
+    animation-fill-mode: $fill;
+    animation-delay: $delay;
+
+    @if $performance == 'true' { @include performance; }
+}
+
+@mixin fade-in($duration: .25s, $easing: ease-in) {
+    @include animation($name: fade-in, $duration: $duration, $easing: $easing, $iterations: 1, $fill: forwards, $performance: 'true');
+}
+
+@mixin fade-out($duration: .25s, $easing: ease-out, $delay: 0s, $fill-mode: forwards) {
+    @include animation($name: fade-out, $duration: $duration, $easing: $easing, $iterations: 1, $fill: forwards, $performance: 'true');
+}
+
+@mixin placeholder-text($color: map-get($color, text), $font-style: normal, $font-weight: 400, $font-size: inherit, $text-transform: none, $hide-on-focus: 'false', $line-height: inherit) {
+    $selectors: '::-webkit-input-placeholder' ':-moz-placeholder' '::-moz-placeholder' ':-ms-input-placeholder';
+
+    @each $selector in $selectors {
+        #{$selector} {
+            color: $color;
+            font-style: $font-style;
+            font-weight: $font-weight;
+            font-size: $font-size;
+            text-transform: $text-transform;
+            line-height: $line-height;
+        }
+
+        @if $hide-on-focus == 'true' { :focus#{$selector} { color: transparent; } }
+    }
+}
+
+@mixin autofill($background: #fff, $color: map-get($color, text)) {
+    $prefixes: -webkit-, -khtml-, -moz-, -o-;
+
+    @each $prefix in $prefixes {
+        &:#{$prefix}autofill {
+            #{$prefix}box-shadow: 0 0 0 1000px $background inset;
+            #{$prefix}text-fill-color: $color !important;
+        }
+    }
+}
+
+@mixin fill-parent($top: 0, $right: 0, $bottom: 0, $left: 0) {
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
+
+@mixin absolute-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

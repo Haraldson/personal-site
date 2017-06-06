@@ -1,0 +1,6 @@
+a {
+    color: map-get($color, profile);
+    text-decoration: underline;
+
+    &:hover { text-decoration: none; }
+}

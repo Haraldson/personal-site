@@ -1,0 +1,68 @@
+html {
+    // 300ms touch delay be gone
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1;
+    font-family: $font-sans;
+    color: map-get($color, text);
+    background: map-get($color, background);
+    @include optimize-font-rendering;
+
+    perspective-origin: 0 50%;
+    perspective: 100vh;
+}
+
+*,
+:before,
+:after {
+    box-sizing: border-box;
+}
+
+em { font-style: italic; }
+strong { font-weight: 500; }
+
+// Lazy input elements lost their entire inheritance
+input,
+textarea,
+select,
+button {
+    font-family: $font-sans;
+    @include optimize-font-rendering;
+}
+
+button { -webkit-appearance: none; }
+
+::-webkit-selection {
+    color: #fff;
+    background: map-get($color, profile);
+}
+
+::-moz-selection {
+    color: #fff;
+    background: map-get($color, profile);
+}
+
+::selection {
+    color: #fff;
+    background: map-get($color, profile);
+}
+
+::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+@include placeholder-text(#888, italic);
+
+:focus { outline: none; }
+
+#ioa,
+#layout {
+    position: relative;
+    @include clearfix;
+}
